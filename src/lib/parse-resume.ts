@@ -31,7 +31,6 @@ export function heuristicParseResume(rawText: string): ParsedResumeData {
     if (!rawText) return data;
 
     const lines = rawText.split("\n").map((l) => l.trim()).filter(Boolean);
-    const textSpaceNorm = rawText.replace(/\s+/g, " ");
 
     // ── Extract Email ──────────────────────────────────────────────────────────
     const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;

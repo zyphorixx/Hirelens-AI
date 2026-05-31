@@ -1,4 +1,5 @@
 import { NextRequest } from "next/server";
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { heuristicParseResume } from "@/lib/parse-resume";
 
@@ -44,8 +45,8 @@ export async function POST(_req: NextRequest, ctx: ParseRouteContext) {
                     parsedEmail: parsedData.email,
                     parsedPhone: parsedData.phone,
                     parsedSkills: parsedData.skills,
-                    parsedEducation: parsedData.education as any,
-                    parsedExperience: parsedData.experience as any,
+                    parsedEducation: parsedData.education as unknown as Prisma.InputJsonValue,
+                    parsedExperience: parsedData.experience as unknown as Prisma.InputJsonValue,
                 },
             });
 

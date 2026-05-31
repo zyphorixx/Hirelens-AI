@@ -142,7 +142,8 @@ export async function POST(request: NextRequest) {
 
             // 6. Persist to database (resume + pending candidate — single transaction)
             try {
-                const result = await prisma.$transaction(async (tx) => {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const result = await prisma.$transaction(async (tx: any) => {
                     const resume = await tx.resume.create({
                         data: {
                             jobId: parsedParams.data.jobId,
@@ -246,7 +247,7 @@ export async function GET(request: NextRequest) {
 
         return Response.json({
             job,
-            resumes: resumes.map((r) => ({
+            resumes: resumes.map((r: { id: string, fileName: string, fileType: string, fileSizeBytes: number, createdAt: Date, candidate: unknown }) => ({
                 ...r,
                 createdAt: r.createdAt.toISOString(),
             })),
