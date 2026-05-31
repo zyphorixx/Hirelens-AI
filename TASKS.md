@@ -42,7 +42,12 @@
 
 ---
 
-## Phase 5 — Pages & Polish ⬜
+## Phase 5 — UI Components & Dashboard ✅
+- [x] Primitive UI (Tailwind integrated in Dashboard)
+- [x] `JobForm` — title + JD textarea/upload  
+- [x] `ResumeDropzone` — multi-file drag-and-drop
+- [x] `CandidateTable` — sortable ranked table with matching skills
+- [x] Root layout and single-page Dashboard integration
 - [ ] Root layout with sidebar navigation
 - [ ] `/jobs` page — job listing
 - [ ] `/jobs/new` page — create job
