@@ -2,7 +2,6 @@ import { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { ScreenJobSchema } from "@/lib/validations";
 import { scoreResumeViaGemini } from "@/lib/gemini";
-import type { GeminiScreeningResult } from "@/types";
 
 // POST /api/screen
 // Accepts a jobId, queries all un-screened (or PARSED) resumes, and runs exactly 1 Gemini prompt for each.

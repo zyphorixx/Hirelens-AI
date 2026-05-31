@@ -16,8 +16,8 @@
 - [x] `src/lib/validations.ts` — Zod schemas for all API inputs
 - [x] `src/types/index.ts` — shared TypeScript interfaces
 - [x] `POST /api/jobs` — create job with title + description
-- [x] `GET /api/jobs` — list all jobs
-- [x] `GET /api/jobs/[id]` — get single job
+- [x] `GET /api/candidates` — ranked list + search/sort params
+- [ ] `GET /api/candidates/[id]` — candidate detailngle job
 - [x] `POST /api/resumes` — multipart upload, validate, extract text, store to /uploads + DB
 - [x] `GET /api/resumes` — list resumes for a job (with candidate status)
 
