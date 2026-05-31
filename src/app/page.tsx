@@ -264,15 +264,28 @@ export default function Dashboard() {
 
               {/* CANDIDATES TABLE */}
               <div className="md:col-span-2 bg-white rounded-xl shadow-sm border overflow-hidden flex flex-col">
-                <div className="p-6 border-b bg-gray-50">
-                  <div className="flex flex-col sm:flex-row justify-between gap-4">
+                <div className="p-6 border-b bg-gray-50 flex flex-col sm:flex-row justify-between gap-4">
+                  <div className="flex flex-col sm:flex-row justify-between w-full items-start sm:items-center gap-4">
                     <h2 className="text-lg font-semibold flex items-center">
                       Candidates
                       <span className="ml-3 px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-xs">
                         {candidates.length}
                       </span>
                     </h2>
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 w-full sm:w-auto items-center">
+                      <button
+                        onClick={() => window.open(`/api/export?jobId=${jobId}`, "_blank")}
+                        className="px-3 py-1.5 border rounded-md text-sm font-medium bg-green-600 text-white hover:bg-green-700 transition"
+                      >
+                        Download CSV
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-4 border-b bg-white">
+                  <div className="flex flex-col sm:flex-row justify-between gap-4">
+                    <div className="flex gap-2 w-full">
                       <input
                         type="text"
                         placeholder="Search names..."

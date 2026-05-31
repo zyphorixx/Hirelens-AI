@@ -38,7 +38,7 @@
 - [ ] `ResumeDropzone.tsx` — multi-file drag-and-drop
 - [ ] `CandidateTable.tsx` — sortable ranked table
 - [ ] `CandidateDetail.tsx` — skill breakdown panel
-- [ ] `ExportButton.tsx`
+- [x] `ExportButton.tsx` (Integrated into CandidateTable)
 
 ---
 
