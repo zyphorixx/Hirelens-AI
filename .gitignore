@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# uploads — local resume files (dev only, do not commit)
+/uploads/*
+!/uploads/README.md
+
+# prisma generated client
+/node_modules/.prisma

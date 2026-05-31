@@ -1,0 +1,96 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ScreeningStatus {
+  PENDING
+  SCREENED
+  FAILED
+}
+
+enum ParseStatus {
+  PENDING
+  PARSED
+  FAILED
+}
+
+// ---------------------------------------------------------------------------
+// Job: represents a job posting with a job description
+// ---------------------------------------------------------------------------
+model Job {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title       String
+  description String   // Raw JD text (pasted or extracted from uploaded file)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  resumes    Resume[]
+  candidates Candidate[]
+
+  @@map("jobs")
+}
+
+// ---------------------------------------------------------------------------
+// Resume: stores file metadata + extracted text + heuristic parse results
+// ---------------------------------------------------------------------------
+model Resume {
+  id            String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  jobId         String      @map("job_id") @db.Uuid
+  fileName      String      @map("file_name")       // Original filename, e.g. "john_doe_cv.pdf"
+  fileType      String      @map("file_type")       // "pdf" | "docx" | "doc"
+  filePath      String      @map("file_path")       // Local path: /uploads/<uuid>_<filename>
+  fileSizeBytes Int         @map("file_size_bytes")
+  rawText       String      @map("raw_text")        // Full extracted plain text
+
+  // ── Heuristic parse results (populated after parsing) ──────────────────
+  parseStatus   ParseStatus @default(PENDING) @map("parse_status")
+  parseError    String?     @map("parse_error")
+  parsedName    String?     @map("parsed_name")
+  parsedEmail   String?     @map("parsed_email")
+  parsedPhone   String?     @map("parsed_phone")
+  parsedSkills  String[]    @map("parsed_skills") @default([])
+  parsedEducation Json?     @map("parsed_education") // EducationEntry[]
+  parsedExperience Json?    @map("parsed_experience") // ExperienceEntry[]
+
+  createdAt     DateTime    @default(now()) @map("created_at")
+  updatedAt     DateTime    @updatedAt @map("updated_at")
+
+  job       Job        @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  candidate Candidate?
+
+  @@index([jobId])
+  @@index([jobId, parseStatus])
+  @@map("resumes")
+}
+
+// ---------------------------------------------------------------------------
+// Candidate: AI screening result linked 1:1 with a Resume
+// ---------------------------------------------------------------------------
+model Candidate {
+  id               String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  resumeId         String          @unique @map("resume_id") @db.Uuid
+  jobId            String          @map("job_id") @db.Uuid
+  name             String?         // Pre-filled from parsed resume; refined by Gemini
+  email            String?         // Pre-filled from parsed resume; refined by Gemini
+  score            Int?            // 0-100, null until screened
+  matchedSkills    String[]        @map("matched_skills") @default([])
+  missingSkills    String[]        @map("missing_skills") @default([])
+  summary          String?         // AI-generated 2-3 sentence summary
+  screeningStatus  ScreeningStatus @default(PENDING) @map("screening_status")
+  createdAt        DateTime        @default(now()) @map("created_at")
+  updatedAt        DateTime        @updatedAt @map("updated_at")
+
+  resume Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  job    Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  @@index([jobId, score(sort: Desc)])
+  @@index([jobId, name])
+  @@map("candidates")
+}
