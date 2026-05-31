@@ -81,6 +81,9 @@ export interface CandidateSummary {
     score: number | null;
     matchedSkills: string[];
     missingSkills: string[];
+    experienceMatch: string | null;
+    educationMatch: string | null;
+    keywordMatch: string | null;
     screeningStatus: ScreeningStatus;
     createdAt: string;
     updatedAt: string;
@@ -100,9 +103,12 @@ export interface CandidateDetail extends CandidateSummary {
 
 export interface GeminiScreeningResult {
     score: number;
-    matchedSkills: string[];
+    matchingSkills: string[];
     missingSkills: string[];
+    experienceMatch: string;
+    educationMatch: string;
+    keywordMatch: string;
+    summary: string;
     candidateName: string;
     candidateEmail: string;
-    summary: string;
 }
