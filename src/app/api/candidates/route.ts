@@ -67,7 +67,7 @@ export async function GET(request: NextRequest) {
         // Calculate dynamic rank. If sorting purely by score desc across the whole set,
         // (skip + index + 1) is their true ranking. If sorted differently or searched,
         // it reflects their position in the current returned view.
-        const rankedCandidates = candidates.map((candidate, index) => ({
+        const rankedCandidates = candidates.map((candidate: any, index: number) => ({
             ...candidate,
             rank: skip + index + 1,
         }));
