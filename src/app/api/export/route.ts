@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
         }
 
         // Map to the required CSV export format
-        const exportData = candidates.map((c, index) => ({
+        const exportData = candidates.map((c: any, index: number) => ({
             Rank: index + 1,
             Name: c.name || "Unknown",
             Score: c.score !== null ? c.score : "N/A",
